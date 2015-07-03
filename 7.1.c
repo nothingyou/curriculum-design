@@ -27,6 +27,7 @@ int judge(char *p,char *q);
 void menu();
 void reorder_menu();
 void reorder_name(int i);
+void count();
 
 struct info
 {
@@ -50,8 +51,8 @@ void main(void)
 	fclose(fp2);
 	head=(struct info *)malloc(sizeof(struct info));
     head->next=NULL;
+	//handle = (HANDLE)_beginthreadex(NULL, 0, Time, NULL, 0, NULL);
 	login();
-    //handle = (HANDLE)_beginthreadex(NULL, 0, Time, NULL, 0, NULL);
 	gotoxy(0,0);
 	menu();
 }
@@ -73,9 +74,9 @@ void menu()
 		printf("\t\t|                       4.修改                         |\n");
 		printf("\t\t|                       5.删除                         |\n");
 		printf("\t\t|                       6.排序                         |\n");
-		printf("\t\t|                       7.保存信息                     |\n");
-		printf("\t\t|                       8.文件提取                     |\n");
-		printf("\t\t|                       9.设置                         |\n");
+		printf("\t\t|                       7.统计                         |\n");
+		printf("\t\t|                       8.保存信息                     |\n");
+		printf("\t\t|                       9.文件提取                     |\n");
 		printf("\t\t|                       0.退出                         |\n");
 		printf("\t\t--------------------------------------------------------\n");
 		printf("\t\t|                                                      |\n");
@@ -133,9 +134,13 @@ void menu()
 		break;
 	case 7:
 		system("cls");
-		write();
+		count();
 		break;
 	case 8:
+		system("cls");
+		write();
+		break;
+	case 9:
 		system("cls");
 		read();
 		break;
@@ -147,9 +152,91 @@ void menu()
 
 
 }
+void count()
+{
+	struct info *p;
+	int i=0,j=0,m=0,n=0;
+	int x=18,y=6;
+	char temp[][20]={"1401","1402","1403","1404","1405","1406","shan","ji"};
+	p=head->next;
+	printf("\n\n\t\t--------------------------------------------------------\n");
+    printf("\t\t|                          统计                        |\n");
+    printf("\t\t--------------------------------------------------------\n");
+    printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t--------------------------------------------------------\n");
+	printf("\t\t|                                                      |\n");
+	printf("\t\t--------------------------------------------------------\n");
+	while(p!=NULL)
+	{
+		if(strcmp(p->sex,"男")==0)
+		{
+			i++;
+		}
+		else
+			j++;
+		p=p->next;
+	}
+	gotoxy(18,5);
+	printf("男生%d人  女生%d人",i,j);
+	while(m<6)
+	{
+		p=head->next;
+		n=0;
+		while(p!=NULL)
+		{
+			if(strcmp(p->clas,temp[m])==0)
+			{
+				n++;
+			}
+			p=p->next;
+		}
+		if(n!=0)
+		{
+			gotoxy(x,y);
+			printf("%s班%d人",temp[m],n);
+			x+=10;
+		}
+		m++;
+	}
+	x=18,y=7;
+	while(m<8)
+	{
+		p=head->next;
+		n=0;
+		while(p!=NULL)
+		{
+			if(strcmp(p->ad,temp[m])==0)
+			{
+				n++;
+			}
+			p=p->next;
+		}
+		if(n!=0)
+		{
+			gotoxy(x,y);
+			if(m==6)
+				printf("陕西%d人",n);
+			if(m==7)
+				printf("河北%d人",n);
+			x+=10;
+		}
+		m++;
+	}
+	getch();
+}
 void login()//学生登录
 {
-	int choice=1,i=22,j=17;
+	int choice=1,i=18,j=7;
 	char p;
 	while(choice!=0)
 	{
@@ -160,9 +247,9 @@ void login()//学生登录
     printf("\t\t--------------------------------------------------------\n");
     printf("\t\t|                                                      |\n");
 	printf("\t\t|                                                      |\n");
-	printf("\t\t|    账号：                                            |\n");
+	printf("\t\t|   管理员登录                                         |\n");
 	printf("\t\t|                                                      |\n");
-	printf("\t\t|    密码：                                            |\n");
+	printf("\t\t|   退出                                               |\n");
 	printf("\t\t|                                                      |\n");
 	printf("\t\t|                                                      |\n");
 	printf("\t\t|                                                      |\n");
@@ -170,38 +257,39 @@ void login()//学生登录
 	printf("\t\t|                                                      |\n");
 	printf("\t\t|                                                      |\n");
 	printf("\t\t--------------------------------------------------------\n");
-	printf("\t\t|       学生登录         管理员登录       退出         |\n");
+	printf("\t\t|                                                      |\n");
 	printf("\t\t--------------------------------------------------------\n");
 	while(p!=13)
 	{
 		gotoxy(i,j);
 		printf("->");
 		p=getch();
-		if(p==75&&i>25)
+		if(p==72&&j>7)
 		{
 			gotoxy(i,j);
 			printf("  ");
-			i-=17;
+			j-=2;
 			choice--;
 		}
-		if(p==77&&i<=50)
+		if(p==80&&j<=7)
 		{
 			gotoxy(i,j);
 			printf("  ");
-			i+=17;
+			j+=2;
 			choice++;
 		}
 		if(p==27)
-			return;
+		{
+			gotoxy(18,17);
+			exit(0);
+		}
 	}
 	switch(choice)
 	{
 		case 1:
-			break;
-		case 2:
 			login_root();
 			break;
-		case 3:
+		case 2:
 			gotoxy(18,20);
 			exit(0);
 
@@ -214,7 +302,7 @@ void login_root()
 	int m=0,n=0;
 	char temp[6],y;
 	char p,pwd[6],f='a';
-	while(choice!=3)
+	while(choice!=2)
 	{
 		system("cls");
 		p=1;
@@ -369,7 +457,7 @@ void read()//从文件读出
     char f;
     struct info *p,*q=head;
     printf("\n\n\t\t--------------------------------------------------------\n");
-    printf("\t\t|                        文件读出                      |\n");
+    printf("\t\t|                        文件提取                      |\n");
     printf("\t\t--------------------------------------------------------\n");
     printf("\t\t|                                                      |\n");
 	printf("\t\t|                                                      |\n");
@@ -386,7 +474,7 @@ void read()//从文件读出
 	printf("\t\t|                                                      |\n");
 	printf("\t\t--------------------------------------------------------\n");
 	gotoxy(18,9);
-    printf("\t      确定要从文件提取信息吗？: ");
+    printf("\t      确定要从文件提取信息吗？");
 	gotoxy(18,17);
 	printf("确定:Enter 放弃:Esc");
     f=getch();
@@ -398,7 +486,8 @@ void read()//从文件读出
 		if(fp==NULL)
 		{
 			gotoxy(18,17);
-			printf("打开文件失败！");
+			printf("打开文件失败！按任意键返回！");
+			getch();
 			return;
 		}
 		else
@@ -442,7 +531,7 @@ void write()//写入文件
 	printf("\t\t|                                                      |\n");
 	printf("\t\t--------------------------------------------------------\n");
 	gotoxy(18,9);
-	printf("\t      确定要写入文件吗？: ");
+	printf("\t      确定要写入文件吗？");
 	gotoxy(18,17);
 	printf("确定:Enter 放弃:Esc");
 	f=getch();
@@ -459,6 +548,16 @@ void write()//写入文件
 		}
 	else
 	{
+		if(feof(fp)==1)
+		{
+			gotoxy(18,17);
+			printf("文件为空！");
+			flushall();
+			getch();
+
+		}
+		else
+		{
 		while(p!=NULL)
 		{
 			fprintf(fp,"%s %s %s %s %s %s\n",p->ad,p->clas,p->sex,p->tel,p->name,p->id);
@@ -466,7 +565,9 @@ void write()//写入文件
 		}
 		gotoxy(18,17);
 		printf("写入成功!按任意键返回主菜单！                        ");
+		flushall();
 		getch();
+		}
 	}
 		fclose(fp);
   }
@@ -668,7 +769,7 @@ void Delete()//删除功能
 		p=p->next;
 		if(strcmp(temp,p->name)==0||strcmp(temp,p->id)==0)
 		{
-			    gotoxy(18,4);
+			    gotoxy(18,6);
 				printf("学号\t姓名\t性别\t班级\t住址\t电话");
 				gotoxy(18,7);
 				printf("%s\t",p->id);
@@ -741,7 +842,7 @@ void edit()//修改功能
 		{
 			gotoxy(18,7);
 			printf("学号\t姓名\t性别\t班级\t住址\t电话");
-			gotoxy(18,9);
+			gotoxy(18,8);
 			printf("%s\t",p->id);
 			printf("%s\t",p->name);
 			printf("%s\t",p->sex);
@@ -762,22 +863,22 @@ void edit()//修改功能
 		}
 		else
 		{
-			gotoxy(18,11);
+			gotoxy(18,9);
 			printf("输入修改后的学生学号:");
 			scanf("%s",id);
-			gotoxy(18,12);
+			gotoxy(18,10);
 			printf("输入修改后的学生姓名:");
 			scanf("%s",name);
-			gotoxy(18,13);
+			gotoxy(18,11);
 			printf("输入修改后的学生性别:");
 			scanf("%s",sex);
-			gotoxy(18,14);
+			gotoxy(18,12);
 			printf("输入修改后的学生班级:");
 			scanf("%s",clas);
-			gotoxy(18,15);
+			gotoxy(18,13);
 			printf("输入修改后的学生住址:");
 			scanf("%s",ad);
-			gotoxy(18,16);
+			gotoxy(18,14);
 			printf("输入修改后的学生电话:");
 			scanf("%s",tel);
 
@@ -815,8 +916,8 @@ void search_menu()//查找功能菜单
 		printf("\n\n\t\t--------------------------------------------------------\n");
 		printf("\t\t|                        查找                          |\n");
 		printf("\t\t--------------------------------------------------------\n");
-		printf("\t\t|    1.按姓名查找                                      |\n");
-		printf("\t\t|    2.按学号查找                                      |\n");
+		printf("\t\t|    1.按学号查找                                      |\n");
+		printf("\t\t|    2.按姓名查找                                      |\n");
 		printf("\t\t|    3.按住址查找                                      |\n");
 		printf("\t\t|    4.按班级查找                                      |\n");
 		printf("\t\t|    5.按电话查找                                      |\n");
@@ -1130,11 +1231,10 @@ void gotoxy(int x,int y)
 	while(1)
 	{
 		time(&t);
-		gotoxy(18,5);
+		gotoxy(30,1);
 		printf("%s",ctime(&t));
 		Sleep(1000);
 		i++;
-
 	}
     return 0;  
-}*/ 
+} */
